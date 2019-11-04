@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors'); */
 
 import db from './db';
-import router from './routes/movie-router';
+import router from './routes';
 /* const db = require('./db');
 const router = require('./routes/movie-router'); */
 
