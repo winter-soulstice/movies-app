@@ -1,26 +1,26 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Logo } from './Logo.jsx';
-import { Links } from './Links.jsx';
+import Logo from './Logo';
+import Links from './Links';
 
 const Container = styled.div.attrs({
-    className: 'container',
-})``
+  className: 'container',
+})``;
 
 const Nav = styled.nav.attrs({
-    className: 'navbar navbar-expand-lg navbar-dark bg-dark',
+  className: 'navbar navbar-expand-lg navbar-light bg-light',
 })`
     margin-bottom: 20 px;
-`
+`;
 
-export function NavBar() {
-    return (
-        <Container>
-            <Nav>
-                <Logo />
-                <Links />
-            </Nav>
-        </Container>
-    );
-}
+const NavBar = () => (
+  <Container>
+    <Nav>
+      <Logo />
+      <Links />
+    </Nav>
+  </Container>
+);
+
+export { NavBar as default };
