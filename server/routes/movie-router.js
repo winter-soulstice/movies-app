@@ -5,7 +5,7 @@ import MovieCtrl from '../controller/movie-ctrl';
 // const MovieCtrl = require('../controller/movie-ctrl');
 const router = express.Router();
 
-// Connect the website with methods 
+// Connect the website with methods
 router.post('/movie', MovieCtrl.createMovie);
 router.get('/movie/:id', MovieCtrl.getMovieById);
 router.get('/movies', MovieCtrl.getMovies);
