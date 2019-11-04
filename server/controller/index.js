@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
-// eslint-disable-next-line no-unused-vars
-import regeneratorRuntime from 'regenerator-runtime';
+// import regeneratorRuntime from 'regenerator-runtime';
 import Movie from '../models';
 
 // Send a request to create a Movie

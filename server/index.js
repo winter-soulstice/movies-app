@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 db.on('error', console.error.bind(console, 'Connection error to MongoDB'));
 
 app.get('/', (req, res) => {
-  res.send('Goodbye World!');
+  res.send('<h1>Goodbye World!<h1>');
 });
 
 app.use('/api', router);
