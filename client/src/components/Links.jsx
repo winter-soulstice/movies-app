@@ -3,16 +3,29 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Collapse = styled.div.attrs({
-  className: 'collpase navbar-collapse',
-})``;
+  className: 'navbar-nav-scroll',
+})`
+  max-width: 100%;
+  height: 2.5rem;
+  margin-top: .25rem;
+  overflow: hidden;
+`;
 
-const List = styled.div.attrs({
-  className: 'navbar-nav mr-auto',
-})``;
+const List = styled.ul.attrs({
+  className: 'navbar-nav bd-navbar-nav flex-row',
+})`
+  padding-bottom: 2rem;
+  overflow-x: auto;
+`;
 
-const Item = styled.div.attrs({
-  className: 'collpase navbar-collapse',
-})``;
+const Item = styled.li.attrs({
+  className: 'nav-item',
+})`
+  a {
+    color: #09d3ac !important;
+    overflow: hidden;
+  };
+`;
 
 const cinema = 'Cinema';
 const movies = 'Movies';
@@ -20,11 +33,13 @@ const create = 'Create Movie';
 
 const Links = () => (
   <div>
-    <Link to="/" className="navbar-brand">
-      {cinema}
-    </Link>
     <Collapse>
       <List>
+        <Item>
+          <Link to="/" className="nav-link">
+            {cinema}
+          </Link>
+        </Item>
         <Item>
           <Link to="/movies/list" className="nav-link">
             {movies}

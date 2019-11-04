@@ -1,5 +1,6 @@
 // Import react and useState
 import React, { useState } from 'react';
+import { useAlert } from 'react-alert';
 // Importing styled components
 import styled from 'styled-components';
 
@@ -8,12 +9,16 @@ import { insertMovie } from '../api';
 // Created different styled components for each tag with in-line css
 const Title = styled.h1.attrs({
   className: 'h1',
-})``;
+})`
+  color: #007bff;
+  margin-top: 3rem;
+  text-align: center;
+`;
 
 const Wrapper = styled.div.attrs({
   className: 'form-group',
 })`
-  margin: 0 30px;
+  margin: 0 2.375rem;
 `;
 
 const Label = styled.label`
@@ -27,16 +32,23 @@ const InputText = styled.input.attrs({
 `;
 
 const Button = styled.button.attrs({
-  className: 'btn btn-primary',
+  className: 'btn btn-success',
 })`
-  margin: 15px 15px 15px 15px;
+  margin: 1rem 1rem 1rem 0.5rem;
+  float: right;
 `;
 
 const CancelButton = styled.a.attrs({
-  className: 'btn btn-danger',
+  className: 'btn btn-secondary',
 })`
-  margin: 15px 15px 15px 15px;
+  margin: 1rem 1rem 1rem 0.5rem;
+  float: right;
 `;
+
+const create = 'Create Movie';
+const nameLabel = 'Name: ';
+const ratingLabel = 'Rating: ';
+const timeLabel = 'Rating: ';
 
 // Functional component used to insert each movie
 const MoviesInsert = () => {
@@ -45,6 +57,8 @@ const MoviesInsert = () => {
   const [rating, setRating] = useState('');
   const [time, setTime] = useState('');
 
+  const alert = useAlert();
+
   // Asynchronous function to save each movie
   const saveMovie = async () => {
     const arrayTime = time.split('/');
@@ -52,7 +66,7 @@ const MoviesInsert = () => {
 
     // Send the payload to database before reseting form fields
     await insertMovie(payload).then((res) => {
-      window.alert(res.data.message);
+      alert.show(res.data.message);
       setName('');
       setRating('');
       setTime('');
@@ -62,16 +76,16 @@ const MoviesInsert = () => {
   // Render the forms
   return (
     <Wrapper>
-      <Title>Create Movie</Title>
+      <Title>{create}</Title>
 
-      <Label>Name: </Label>
+      <Label>{nameLabel}</Label>
       <InputText
         type="text"
         value={name}
         onChange={(e) => { setName(e.target.value); }}
       />
 
-      <Label>Rating: </Label>
+      <Label>{ratingLabel}</Label>
       <InputText
         type="number"
         step="0.1"
@@ -83,15 +97,15 @@ const MoviesInsert = () => {
         onChange={(e) => { setRating(e.target.value); }}
       />
 
-      <Label>Time: </Label>
+      <Label>{timeLabel}</Label>
       <InputText
         type="text"
         value={time}
         onChange={(e) => { setTime(e.target.value); }}
       />
 
-      <Button onClick={saveMovie}>Add Movie</Button>
       <CancelButton href="/movies/list">Cancel</CancelButton>
+      <Button onClick={saveMovie}>Add Movie</Button>
     </Wrapper>
   );
 };

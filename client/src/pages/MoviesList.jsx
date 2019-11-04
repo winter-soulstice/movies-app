@@ -4,59 +4,59 @@ import ReactTable from 'react-table';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import { getAllMovies, deleteMovieById } from '../api';
+import { getAllMovies } from '../api';
+import { UpdateMovie, DeleteMovie } from '../components';
 
 import 'react-table/react-table.css';
 
 // Created different styled components for each tag with in-line css
 const Wrapper = styled.div`
-  padding: 40px 40px 40px 40px;
+  padding: 1rem 1rem 1rem 1rem;
 `;
 
-const Update = styled.div`
-  color: #ef9b0f;
-  cursor: pointer;
+const Title = styled.h1`
+  color: #007bff;
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
 `;
 
-const Delete = styled.div`
-  color: #ff0000;
-  cursor: pointer;
-`;
-
-// Function to re-route user to a different page for movie-update
-const UpdateMovie = (props) => {
-  const updateM = (event) => {
-    event.preventDefault();
-    window.location.href = `/movies/update/${props.id}`;
-  };
+const TimeCol = (props) => {
+  const { value } = props;
   return (
-    <Update onClick={updateM}>Update</Update>
+    <span>
+      {value.join(' / ')}
+    </span>
   );
 };
-
-UpdateMovie.propTypes = {
-  id: PropTypes.string.isRequired,
+TimeCol.propTypes = {
+  value: PropTypes.string.isRequired,
 };
 
-// Function to delete movie from the list
-const DeleteMovie = (props) => {
-  // Make sure that the movie being deleted is the right one
-  const deleteM = (event) => {
-    event.preventDefault();
-    // eslint-disable-next-line no-alert
-    if (window.confirm(`Do you want to delete the movie ${props.id} permanently?`)) {
-      deleteMovieById(props.id);
-      window.location.reload();
-    }
-  };
-  // Render delete button
+const DelCol = (props) => {
+  const { original } = props;
+  const { _id, name } = original;
   return (
-    <Delete onClick={deleteM}>Delete</Delete>
+    <span>
+      <DeleteMovie id={_id} name={name} />
+    </span>
   );
 };
+DelCol.propTypes = {
+  original: PropTypes.instanceOf(Object).isRequired,
+};
 
-DeleteMovie.propTypes = {
-  id: PropTypes.string.isRequired,
+const UpdateCol = (props) => {
+  const { original } = props;
+  const { _id } = original;
+  return (
+    <span>
+      <UpdateMovie id={_id} />
+    </span>
+  );
+};
+UpdateCol.propTypes = {
+  original: PropTypes.instanceOf(Object).isRequired,
 };
 
 // Constant of columns to be used for react-table
@@ -76,40 +76,29 @@ const cols = [
   {
     Header: 'Time',
     accessor: 'time',
-    Cell: (props) => <span>{props.value.join(' / ')}</span>,
+    Cell: (props) => TimeCol(props),
   },
 
   {
     Header: '',
     accessor: '',
-    Cell(props) {
-      return (
-        <span>
-          <DeleteMovie id={props.original._id} />
-        </span>
-      );
-    },
+    Cell: (props) => UpdateCol(props),
   },
 
   {
     Header: '',
     accessor: '',
-    Cell(props) {
-      return (
-        <span>
-          <UpdateMovie id={props.original._id} />
-        </span>
-      );
-    },
+    Cell: (props) => DelCol(props),
   },
 ];
+
+const list = 'List of Movies';
 
 // Functional component used to list out the movies
 const MoviesList = () => {
   // Hook declaration in order to store state
   const [movies, setMovies] = useState([]);
-  // eslint-disable-next-line
-  const [columns, setColumns] = useState(cols);
+  const [columns] = useState(cols);
   const [isLoading, setIsLoading] = useState(false);
 
   // Asynchronous function to populate the movie list
@@ -131,11 +120,11 @@ const MoviesList = () => {
   if (!movies.length) {
     showTable = false;
   }
-  console.log('TCL: MoviesList -> render -> movies', movies);
 
   // Render the table
   return (
     <Wrapper>
+      <Title>{list}</Title>
       {showTable && (
         <ReactTable
           data={movies}

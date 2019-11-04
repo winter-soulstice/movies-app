@@ -1,3 +1,5 @@
 import NavBar from './NavBar';
+import UpdateMovie from './UpdateMovie';
+import DeleteMovie from './DeleteMovie';
 
-export { NavBar as default };
+export { NavBar, UpdateMovie, DeleteMovie };

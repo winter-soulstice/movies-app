@@ -4,14 +4,13 @@ import styled from 'styled-components';
 import Logo from './Logo';
 import Links from './Links';
 
-const Container = styled.div.attrs({
-  className: 'container',
-})``;
+const Container = styled.div`
+  min-width: 100%;
+`;
 
 const Nav = styled.nav.attrs({
-  className: 'navbar navbar-expand-lg navbar-light bg-light',
+  className: 'navbar navbar-expand navbar-light bg-dark flex-column flex-md-row bd-navbar',
 })`
-    margin-bottom: 20 px;
 `;
 
 const NavBar = () => (

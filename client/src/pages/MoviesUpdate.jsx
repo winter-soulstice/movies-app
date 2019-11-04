@@ -1,14 +1,20 @@
 // Import react, useState, useEffect
 import React, { useState, useEffect } from 'react';
+import { useAlert } from 'react-alert';
 // Import styled components
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 import { updateMovieById, getMovieById } from '../api';
 
 // Created different styled components for each tag with in-line css
 const Title = styled.h1.attrs({
   className: 'h1',
-})``;
+})`
+  color: #007bff;
+  margin-top: 3rem;
+  text-align: center;
+`;
 
 const Wrapper = styled.div.attrs({
   classname: 'form-group',
@@ -27,25 +33,30 @@ const InputText = styled.input.attrs({
 `;
 
 const Button = styled.button.attrs({
-  className: 'btn btn-primary',
+  className: 'btn btn-success',
 })`
-  margin: 15px 15px 15px 5px
+  margin: 1rem 1rem 1rem 0.5rem;
+  float: right;
 `;
 
 const CancelButton = styled.a.attrs({
-  className: 'btn btn-danger',
+  className: 'btn btn-secondary',
 })`
-  margin: 15px 15px 15px 5px;
+  margin: 1rem 1rem 1rem 0.5rem;
+  float: right;
 `;
 
 // Function to take care of updating the movies
 const MoviesUpdate = (props) => {
   // Hook declaration to store/read state
-  // eslint-disable-next-line
-  const [id, setId] = useState(props.match.params.id);
+  const { match } = props;
+
+  const [id] = useState(match.params.id);
   const [name, setName] = useState('');
   const [rating, setRating] = useState('');
   const [time, setTime] = useState('');
+
+  const alert = useAlert();
 
   // Asynchronous function to populate the form fields
   const fillFields = async () => {
@@ -64,17 +75,24 @@ const MoviesUpdate = (props) => {
     // Update the database and refill the form fields
     await updateMovieById(id, payload)
       .then((res) => {
-        // eslint-disable-next-line no-alert
-        window.alert(res.data.message);
+        alert.show(res.data.message);
         fillFields();
       });
   };
 
   // Onload fill the form fields
   useEffect(() => {
-    fillFields();
-    // eslint-disable-next-line
-  }, []);
+    // Asynchronous function to populate the form fields
+    const fill = async () => {
+      const movie = await getMovieById(id);
+
+      setName(movie.data.data.name);
+      setRating(movie.data.data.rating);
+      setTime(movie.data.data.time.join('/'));
+    };
+
+    window.addEventListener('onload', fill());
+  }, [id]);
 
   // Render the forms
   return (
@@ -106,10 +124,14 @@ const MoviesUpdate = (props) => {
         onChange={(e) => { setTime(e.target.value); }}
       />
 
-      <Button onClick={handleUpdateMovie}>Update Movie</Button>
       <CancelButton href="/movies/list">Cancel</CancelButton>
+      <Button onClick={handleUpdateMovie}>Update Movie</Button>
     </Wrapper>
   );
+};
+
+MoviesUpdate.propTypes = {
+  match: PropTypes.instanceOf(Object).isRequired,
 };
 
 export { MoviesUpdate as default };
