@@ -2,8 +2,13 @@
 // import regeneratorRuntime from 'regenerator-runtime';
 import Movie from '../models';
 
+const removeHeader = (res) => {
+  res.removeHeader('X-Powered-By');
+};
+
 // Send a request to create a Movie
 const createMovie = (req, res) => {
+  removeHeader(res);
   const { body } = req;
 
   // Check to see if the request has a payload
@@ -44,6 +49,7 @@ const createMovie = (req, res) => {
 
 // Method to update a previously created movie
 const updateMovie = (req, res) => {
+  removeHeader(res);
   const { body } = req;
   // Check to see if the request has a payload
   if (!body) {
@@ -90,6 +96,7 @@ const updateMovie = (req, res) => {
 
 // Method to delete movie
 const deleteMovie = async (req, res) => {
+  removeHeader(res);
   await Movie.findOneAndDelete({ _id: req.params.id }, (err, movie) => {
     // Checks for errors
     if (err) {
@@ -118,6 +125,7 @@ const deleteMovie = async (req, res) => {
 
 // Method to find a movie by its id.
 const getMovieById = async (req, res) => {
+  removeHeader(res);
   await Movie.findOne({ _id: req.params.id }, (err, movie) => {
     // Checks to see if an error has been thrown
     if (err) {
@@ -145,6 +153,7 @@ const getMovieById = async (req, res) => {
 
 // Method to populate the list of movies
 const getMovies = async (req, res) => {
+  removeHeader(res);
   await Movie.find({}, (err, movies) => {
     // Check to see if an error has been thrown
     if (err) {

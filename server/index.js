@@ -17,6 +17,7 @@ const apiPort = 3000;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use(bodyParser.json());
+app.disable('x-powered-by');
 
 db.on('error', console.error.bind(console, 'Connection error to MongoDB'));
 
