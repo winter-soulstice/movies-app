@@ -13,11 +13,12 @@ const Delete = styled.div`
 const DeleteMovie = (props) => {
   // Make sure that the movie being deleted is the right one
   const { name } = props;
-  const deleteM = (event) => {
+  const { id } = props;
+  const deleteM = async (event) => {
     event.preventDefault();
     // eslint-disable-next-line no-alert
     if (window.confirm(`Do you want to delete the movie: ${name}, permanently?`)) {
-      deleteMovieById(props.id);
+      await deleteMovieById(id);
       window.location.reload();
     }
   };
