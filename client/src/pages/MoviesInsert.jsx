@@ -48,7 +48,7 @@ const CancelButton = styled.a.attrs({
 const create = 'Create Movie';
 const nameLabel = 'Name: ';
 const ratingLabel = 'Rating: ';
-const timeLabel = 'Rating: ';
+const timeLabel = 'Time: ';
 
 // Functional component used to insert each movie
 const MoviesInsert = () => {
